@@ -19,7 +19,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtProvider implements IJwtProvider{
+public class JwtProvider implements IJwtProvider
+{
     @Value("${app.jwt.secret}")
     private String JWT_SECRET;
 
@@ -27,14 +28,15 @@ public class JwtProvider implements IJwtProvider{
     private Long JWT_EXPIRATION_IN_MS;
 
     @Override
-    public String generateToken(UserPrincipal auth) {
+    public String generateToken(UserPrincipal auth)
+    {
         String authorities = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         return Jwts.builder()
                 .setSubject(auth.getUsername())
-                .claim("roles",authorities)
+                .claim("roles", authorities)
                 .claim("userId", auth.getId())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_IN_MS))
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
@@ -42,11 +44,15 @@ public class JwtProvider implements IJwtProvider{
     }
 
     @Override
-    public Authentication getAuthentication(HttpServletRequest request){
+    public Authentication getAuthentication(HttpServletRequest request)
+    {
         Claims claims = extractClaims(request);
-        if (claims == null){
+
+        if (claims == null)
+        {
             return null;
         }
+
         String username = claims.getSubject();
         Long userId = claims.get("userId", Long.class);
 
@@ -60,29 +66,36 @@ public class JwtProvider implements IJwtProvider{
                 .id(userId)
                 .build();
 
-        if (username == null){
-            return  null;
+        if (username == null)
+        {
+            return null;
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
     }
 
     @Override
-    public boolean validateToken(HttpServletRequest request){
+    public boolean validateToken(HttpServletRequest request)
+    {
         Claims claims = extractClaims(request);
 
-        if (claims == null){
+        if (claims == null)
+        {
             return false;
         }
 
-        if (claims.getExpiration().before(new Date())){
+        if (claims.getExpiration().before(new Date()))
+        {
             return false;
         }
         return true;
     }
 
-    private Claims extractClaims(HttpServletRequest request){
+    private Claims extractClaims(HttpServletRequest request)
+    {
         String token = SecurityUtils.extractAuthTokenFromRequest(request);
-        if (token == null){
+
+        if (token == null)
+        {
             return null;
         }
 

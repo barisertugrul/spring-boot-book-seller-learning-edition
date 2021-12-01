@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService
+{
     @Autowired
     private IUserRepository userRepository;
 
@@ -30,13 +31,15 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Optional<User> findByUsername(String username){
+    public Optional<User> findByUsername(String username)
+    {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    @Transactional
-    public void makeAdmin(String username){
-        userRepository.updateUserRole(username,Role.ADMIN);
+    @Transactional //TransactionalRequired when executing an update/delete query.
+    public void makeAdmin(String username)
+    {
+        userRepository.updateUserRole(username, Role.ADMIN);
     }
 }

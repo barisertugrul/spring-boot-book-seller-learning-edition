@@ -1,7 +1,7 @@
 package com.ertyazilim.springbootbooksellertrainingedition.model;
 
 public enum Role {
-    USER,
-    ADMIN,
-    SYSTEM_MANAGER
+    USER, //default
+    ADMIN, // admin manager, CRUD
+    SYSTEM_MANAGER // internal operations.
 }

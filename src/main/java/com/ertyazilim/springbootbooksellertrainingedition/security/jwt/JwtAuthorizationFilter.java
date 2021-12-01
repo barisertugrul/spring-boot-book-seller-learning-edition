@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter
+{
     @Autowired
     private IJwtProvider jwtProvider;
 
@@ -22,13 +23,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException
+    {
         Authentication authentication = jwtProvider.getAuthentication(request);
 
-        if(authentication != null && jwtProvider.validateToken(request)){
+        if (authentication != null && jwtProvider.validateToken(request))
+        {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }

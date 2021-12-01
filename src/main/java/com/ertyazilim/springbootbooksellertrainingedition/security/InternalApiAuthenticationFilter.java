@@ -13,13 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-public class InternalApiAuthenticationFilter extends OncePerRequestFilter {
-
+public class InternalApiAuthenticationFilter extends OncePerRequestFilter
+{
     private final String accessKey;
 
     public InternalApiAuthenticationFilter(String accessKey)
     {
-
         this.accessKey = accessKey;
     }
 
