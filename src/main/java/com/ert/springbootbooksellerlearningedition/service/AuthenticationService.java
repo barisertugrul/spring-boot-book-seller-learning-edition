@@ -1,5 +1,6 @@
 package com.ert.springbootbooksellerlearningedition.service;
 
+import com.ert.springbootbooksellerlearningedition.model.Role;
 import com.ert.springbootbooksellerlearningedition.security.UserPrincipal;
 import com.ert.springbootbooksellerlearningedition.security.jwt.IJwtProvider;
 import com.ert.springbootbooksellerlearningedition.model.User;
@@ -31,6 +32,7 @@ public class AuthenticationService implements IAuthenticationService
         user.setName("Autoname");
         user.setUsername(signInRequest.getUsername());
         user.setToken("şkişlişlşilşi");
+        user.setRole(Role.ADMIN);
         return  user;
         /*
 
@@ -46,7 +48,7 @@ public class AuthenticationService implements IAuthenticationService
         signInUser.setToken(jwt);
 
         return signInUser;
-        
+
          */
     }
 }
